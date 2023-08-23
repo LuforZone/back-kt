@@ -7,6 +7,9 @@ import org.example.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+
 @Service
 public class UserService {
     private final Mapper mapper;
@@ -16,7 +19,7 @@ public class UserService {
         this.mapper = mapper;
     }
 
-    public Result<User> getAllUsers(int page) {
+    public List<User> getAllUsers(int page) {
         return mapper.getAllUsers(page);
     }
 
@@ -33,16 +36,18 @@ public class UserService {
         mapper.deleteByEmail(email);
     }
 
-    public void updateUserByEmail(String email, User user) {
-        user.setEmail(email);
-        mapper.updateUser(user);
-    }
 
     public User getUserByID(int id) {
         return mapper.getUserById(id);
     }
 
     public boolean checkAdmin(AdminAccount admin) {
-        return mapper.checkAdmin(admin);
+        AdminAccount storeAdmin = mapper.findByAccountAndPassword(admin.getAccount(),admin.getPassword());
+        return storeAdmin !=null;
+    }
+
+
+    public void updateUserById(int id, User user) {
+        mapper.updateUser(user,id);
     }
 }

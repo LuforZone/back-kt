@@ -11,6 +11,8 @@ import org.example.entity.Result;
 import org.example.entity.User;
 import org.example.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/json")
 public class UserController {
@@ -22,10 +24,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("{page}") // check users
-    public ResponseEntity<Result<User>> getAllUsers(int page) {
-        Result<User> result = userService.getAllUsers(page);
-        return ResponseEntity.ok(result);
+    @GetMapping("/{page}") // check users
+    public ResponseEntity<List<User>> getAllUsers(@PathVariable Integer page) {
+        List<User> users  = userService.getAllUsers(page);
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping // add users
@@ -63,11 +65,18 @@ public class UserController {
     }
 
     @PutMapping("/{id}") // update users
-    ResponseEntity<Result<User>> updateUser(@PathVariable int id, @RequestBody User user) {
+    ResponseEntity<Result<User>> updateUser(@PathVariable Integer id, @RequestBody User user) {
         User queryResult = userService.getUserByID(id);
         System.out.println("have access putMapping");
         System.out.println("is there has account " + queryResult);
-        return null;
+        if (queryResult != null) {
+            userService.updateUserById(id, user);
+            Result<User> result = new Result<>(200, "success", null);
+            return ResponseEntity.ok(result);
+        } else {
+            Result<User> result = new Result<>(HttpStatus.NOT_FOUND.value(), "User not found", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        }
     }
 
     @PostMapping("/login")

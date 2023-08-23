@@ -1,8 +1,6 @@
 package org.example.entity;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,6 +17,7 @@ import jakarta.persistence.GenerationType;
         private String name;
         private String phone;
         private String sex;
+        @Column(name = "email", unique = true)
         private String email;
         private String uuid;
 
@@ -31,7 +30,7 @@ import jakarta.persistence.GenerationType;
         }
 
         public String getName() {
-            return name;
+            return this.name;
         }
 
         public void setName(String name) {
