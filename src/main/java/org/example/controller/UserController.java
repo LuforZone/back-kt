@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.apache.coyote.Response;
+import org.example.entity.AdminAccount;
 import org.example.entity.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("{page}")//check users
+    @GetMapping("{page}") // check users
     public ResponseEntity<Result<User>> getAllUsers(int page) {
         Result<User> result = userService.getAllUsers(page);
         return ResponseEntity.ok(result);
     }
-    @PostMapping//add users
-    public  ResponseEntity<Result<User>> addUser(@RequestBody User user){
+
+    @PostMapping // add users
+    public ResponseEntity<Result<User>> addUser(@RequestBody User user) {
         System.out.println("have access postMapping");
         User queryResult = userService.getUserByEmail(user.getEmail());
         System.out.println("is there has account " + queryResult);
@@ -45,6 +47,7 @@ public class UserController {
             return ResponseEntity.ok(result);
         }
     }
+
     @DeleteMapping("/{email}") // delete users
     public ResponseEntity<Result<User>> deleteUser(@PathVariable String email) {
         User queryResult = userService.getUserByEmail(email);
@@ -58,6 +61,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
         }
     }
+
     @PutMapping("/{id}") // update users
     ResponseEntity<Result<User>> updateUser(@PathVariable int id, @RequestBody User user) {
         User queryResult = userService.getUserByID(id);
@@ -65,17 +69,17 @@ public class UserController {
         System.out.println("is there has account " + queryResult);
         return null;
     }
+
     @PostMapping("/login")
-    public ResponseEntity<Result<User>> userLogin(@RequestBody User user){
-boolean isAdmin = userService.checkAdmin(user);
-if (isAdmin){
-    Result<User> result = new Result<>(200, "success", null);
-    return ResponseEntity.ok((result));
-}
-else{
-    Result<User> result = new Result<>(HttpStatus.NOT_FOUND.value(), "have no access", null);
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
-}
+    public ResponseEntity<Result<User>> userLogin(@RequestBody AdminAccount admin) {
+        boolean isAdmin = userService.checkAdmin(admin);
+        if (isAdmin) {
+            Result<User> result = new Result<>(200, "success", null);
+            return ResponseEntity.ok((result));
+        } else {
+            Result<User> result = new Result<>(HttpStatus.NOT_FOUND.value(), "have no access", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 package org.example.mapper;
 
+import org.example.entity.AdminAccount;
 import org.example.entity.Result;
 import org.example.entity.User;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,27 @@ public class Mapper {
     @Transactional
     public Result<User> getAllUsers(int page) {
         return null;
+    }
+
+    public User findByEmail(String email) {
+        return null;
+    }
+
+    public void save(User user) {
+
+    }
+
+    public void deleteByEmail(String email) {
+    }
+
+    public void updateUser(User user) {
+    }
+
+    public User getUserById(int id) {
+        return null;
+    }
+
+    public boolean checkAdmin(AdminAccount admin) {
+        return true;
     }
 }

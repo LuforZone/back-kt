@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.entity.AdminAccount;
 import org.example.entity.Result;
 import org.example.entity.User;
 import org.example.mapper.Mapper;
@@ -14,31 +15,34 @@ public class UserService {
     public UserService(Mapper mapper) {
         this.mapper = mapper;
     }
+
     public Result<User> getAllUsers(int page) {
         return mapper.getAllUsers(page);
     }
 
     public User getUserByEmail(String email) {
-        return null;
+        return mapper.findByEmail(email);
     }
 
     public void addUser(User user) {
-        return;
+        mapper.save(user);
+
     }
 
     public void deleteUserByEmail(String email) {
-        return;
+        mapper.deleteByEmail(email);
     }
 
     public void updateUserByEmail(String email, User user) {
-    return;
+        user.setEmail(email);
+        mapper.updateUser(user);
     }
 
     public User getUserByID(int id) {
-    return null;
+        return mapper.getUserById(id);
     }
 
-    public boolean checkAdmin(User user) {
-        return true;
+    public boolean checkAdmin(AdminAccount admin) {
+        return mapper.checkAdmin(admin);
     }
 }
