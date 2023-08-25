@@ -82,4 +82,9 @@ return entityManager.find(User.class,id);
         Page<User> userPage = userRepository.findAll(pageRequest);
         return userPage.getContent();
     }
+
+    public int getTotal() {
+        //get how many datas in database
+        return  (int) userRepository.count();
+    }
 }

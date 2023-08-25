@@ -50,4 +50,9 @@ public class UserService {
     public void updateUserById(int id, User user) {
         mapper.updateUser(user,id);
     }
+
+    public int getPages() {
+        int userCount = mapper.getTotal();
+        return userCount/10 + 1;
+    }
 }

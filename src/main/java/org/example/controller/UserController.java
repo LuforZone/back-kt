@@ -91,4 +91,8 @@ public class UserController {
         }
 
     }
+    @GetMapping("/count")
+    public int getTotalPage(){
+        return userService.getPages();
+    }
 }
