@@ -81,6 +81,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Result<User>> userLogin(@RequestBody AdminAccount admin) {
+        System.out.println(admin.getAccount());
+        System.out.println(admin.getPassword());
         boolean isAdmin = userService.checkAdmin(admin);
         if (isAdmin) {
             Result<User> result = new Result<>(200, "success", null);
